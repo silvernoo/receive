@@ -25,5 +25,5 @@ func main() {
 	flag.Parse()
 	handler.Path = h
 	router := initRouter.SetupRouter()
-	_ = router.Run(":8088")
+	_ = router.Run(":80")
 }
