@@ -14,9 +14,7 @@ WORKDIR /api
 COPY go.mod .
 COPY go.sum .
 
-RUN export GOPROXY="https://goproxy.io" \
-    && export CGO_ENABLED="0" \
-    && go mod download
+RUN go mod download
 
 COPY . .
 
