@@ -1,12 +1,12 @@
 ARG GO_VERSION=1.11
 
 ARG ARCH
-FROM $ARCH/golang:${GO_VERSION}-alpine AS builder
+FROM $ARCH/golang:${GO_VERSION}-stretch AS builder
 
 ARG QEMU_BIN
 COPY $QEMU_BIN /usr/bin
 
-RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
+RUN apt-get -y update && apt-get -y install git
 
 RUN mkdir -p /api
 WORKDIR /api
