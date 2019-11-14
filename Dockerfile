@@ -1,6 +1,10 @@
 ARG GO_VERSION=1.11
 
-FROM arm64v8/golang:${GO_VERSION}-alpine AS builder
+ARG ARCH
+FROM $ARCH/golang:${GO_VERSION}-alpine AS builder
+
+ARG QEMU_BIN
+COPY $QEMU_BIN /usr/bin
 
 RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
 
@@ -18,7 +22,11 @@ COPY . .
 
 RUN go build -o ./app ./main.go
 
-FROM arm64v8/alpine:latest
+ARG ARCH
+FROM $ARCH/alpine:latest
+
+ARG QEMU_BIN
+COPY $QEMU_BIN /usr/bin
 
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 
