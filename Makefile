@@ -5,13 +5,18 @@ GOBUILD=CGO_ENABLED=0 GOPROXY="https://goproxy.io" go build
 
 
 PLATFORM_LIST = \
-	linux-armv8
+	linux-armv8 \
+	linux-arm \
+	linux-amd64
 
 linux-armv8:
 	GOARCH=arm64 GOOS=linux $(GOBUILD) -o $(BINDIR)/$(NAME)-$@
 
-darwin-amd64:
-	GOARCH=amd64 GOOS=darwin $(GOBUILD) -o $(BINDIR)/$(NAME)-$@
+linux-arm:
+	GOARCH=arm GOOS=linux $(GOBUILD) -o $(BINDIR)/$(NAME)-$@
+
+linux-amd64:
+	GOARCH=amd64 GOOS=linux $(GOBUILD) -o $(BINDIR)/$(NAME)-$@
 
 zip_releases=$(addsuffix .zip, $(WINDOWS_ARCH_LIST))
 
