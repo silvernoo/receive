@@ -1,11 +1,13 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -14,9 +16,15 @@ var (
 
 func Receive(context *gin.Context) {
 	file, header, err := context.Request.FormFile("file")
+	if err != nil {
+		log.Fatal(err)
+	}
+	pPath := filepath.Join(Path, context.Request.FormValue("path"))
 	filename := header.Filename
-	print(filename)
-	out, err := os.Create(filepath.Join(Path, filename))
+	if _, err := os.Stat(pPath); os.IsNotExist(err) {
+		_ = os.MkdirAll(pPath, os.ModeDir)
+	}
+	out, err := os.Create(filepath.Join(pPath, filename))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,4 +33,5 @@ func Receive(context *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(filepath.Join(pPath, filename))
 }

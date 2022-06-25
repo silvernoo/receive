@@ -7,7 +7,6 @@ import (
 
 func SetupRouter() *gin.Engine {
 	router := gin.New()
-	// 添加自定义的 logger 中间件
 	router.Use(gin.Logger(), gin.Recovery())
 	index := router.Group("/")
 	{
